@@ -31,4 +31,4 @@ with engine.connect() as connection:
     connection.commit()
     print("Data berhasil ditambahkan")
   except Exception as e:
-    print(f"Terjadi kesalah: {e}")
+    print(f"Terjadi kesalahan: {e}")
