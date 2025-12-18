@@ -1,8 +1,8 @@
 import time
 
-import pandas as pd
 import requests
 from bs4 import BeautifulSoup
+from transform import transform_data, transform_to_DataFrame
 
 HEADERS = {
     "User-Agent": (
@@ -73,8 +73,12 @@ def main():
   """The main function for the entire scraping process to saving it."""
   BASE_URL = 'https://books.toscrape.com/catalogue/page-{}.html'
   all_books_data = scrape_book(BASE_URL)
-  df = pd.DataFrame(all_books_data)
-  print(df)
+  if all_books_data:
+    DataFrame = transform_to_DataFrame(all_books_data)
+    DataFrame = transform_data(DataFrame, 20000)
+    print(DataFrame)
+  else:
+    print("No data found.")
 
 if __name__ == '__main__':
   main()
