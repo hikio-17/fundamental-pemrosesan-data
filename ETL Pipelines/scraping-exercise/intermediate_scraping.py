@@ -3,6 +3,7 @@ import time
 import requests
 from bs4 import BeautifulSoup
 from transform import transform_data, transform_to_DataFrame
+from store_to_db import store_to_postgre
 
 HEADERS = {
     "User-Agent": (
@@ -76,7 +77,10 @@ def main():
   if all_books_data:
     DataFrame = transform_to_DataFrame(all_books_data)
     DataFrame = transform_data(DataFrame, 20000)
-    print(DataFrame)
+
+    # Save Data to PostgreSQL
+    db_url = 'postgresql+psycopg2://developer:supersecretpassword@localhost:5432/booksdb'
+    store_to_postgre(DataFrame, db_url)
   else:
     print("No data found.")
 
