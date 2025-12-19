@@ -48,7 +48,7 @@ def scrape_book(base_url, start_page=1, delay=2):
   data = []
   page_number = start_page
 
-  while True:
+  while page_number <= 3:
     url = base_url.format(page_number)
     print(f"Scraping page: {url}")
     content = fetching_content(url)

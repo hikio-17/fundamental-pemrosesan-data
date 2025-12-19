@@ -1,3 +1,5 @@
 .venv/
 .env/
 Repositori Data/Latihan  Menyimpan Data ke Google Sheets/client_secret.json
+ETL Pipelines/scraping-exercise/__pycache__
+scraping.log
