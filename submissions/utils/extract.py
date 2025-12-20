@@ -1,6 +1,5 @@
 import time
 
-import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 
@@ -27,7 +26,6 @@ def fetching_content(url):
   
 def extract_product_data(collection_card):
   """Retrieving book data in the form of title, price, availability, and rating from the article (html element)."""
-  # product_image = collection_card.find('img', class__='collection_image')['src']
   product_details_element = collection_card.find('div', class_='product-details')
   title = product_details_element.find('h3', class_='product-title').text
   price = product_details_element.find(class_='price').text
@@ -52,8 +50,11 @@ def scrape_product(base_url, start_page=1, delay=2):
   data = []
   page_number = start_page
 
-  while page_number <= 3:
-    url = base_url.format(page_number) if page_number > start_page else base_url
+  while True:
+    if (page_number == 1):
+      url = base_url
+    else:
+      url = base_url + "/page{}".format(page_number)
     print(f"Scraping page: {url}")
 
     content = fetching_content(url)
@@ -65,7 +66,7 @@ def scrape_product(base_url, start_page=1, delay=2):
         product = extract_product_data(collection_card)
         data.append(product)
       
-      next_button = soup.find('page-item next')
+      next_button = soup.find('li', class_='page-item next')
 
       if next_button and not 'disabled' in next_button.get('class', []):
         page_number += 1
@@ -76,15 +77,4 @@ def scrape_product(base_url, start_page=1, delay=2):
       break # Stop if there is an error
 
   return data
-
-def scrape_main():
-  """The main function for the entire scraping process to saving it."""
-  BASE_URL = "https://fashion-studio.dicoding.dev"
-  all_products_data = scrape_product(BASE_URL)
-  df = pd.DataFrame(all_products_data)
-  print(df)
-
-
-if __name__ == '__main__':
-  scrape_main()
 
