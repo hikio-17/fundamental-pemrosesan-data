@@ -1,5 +1,6 @@
 from utils.extract import scrape_product
 from utils.transform import transform_to_DataFrame, transform_data
+from utils.load import store_to_csv, store_to_googlesheet, store_to_postgre
 
 def main():
   """The main function for the entire scraping process to saving it."""
@@ -9,17 +10,10 @@ def main():
     DataFrame = transform_to_DataFrame(all_products_data)
     DataFrame = transform_data(DataFrame, 16000)
 
-    print(len(DataFrame))
-
-    print(DataFrame.duplicated().sum())
-    print(DataFrame.isnull().sum())
-    print(DataFrame.isna().sum())
-    print("Duplicate rows:", DataFrame.duplicated().sum())
-    print("Null / NaN:")
-    print(DataFrame.isna().sum())
-
-    print("Empty string:")
-    print(DataFrame.apply(lambda col: col.astype(str).str.strip().eq("").sum()))
+    # Store data to Repository
+    store_to_csv(DataFrame)
+    # store_to_postgre(DataFrame)  # Uncomment if use Repository Postrges
+    store_to_googlesheet(DataFrame)
   else:
     print("No data found.")
 

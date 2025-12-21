@@ -4,3 +4,4 @@ Repositori Data/Latihan  Menyimpan Data ke Google Sheets/client_secret.json
 ETL Pipelines/scraping-exercise/__pycache__
 submissions/utils/__pycache__
 scraping.log
+submissions/google-sheets-api.json
